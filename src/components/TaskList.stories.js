@@ -24,5 +24,5 @@ storiesOf("TaskList", module)
   .add("withPinnedTasks", () => (
     <TaskList tasks={withPinnedTasks} {...actions} />
   ))
-  .add("loading", () => <TaskList loading tasks={[]} {...actions} />)
+  .add("loading", () => <TaskList loading tasks={defaultTasks} {...actions} />)
   .add("empty", () => <TaskList tasks={[]} {...actions} />);
