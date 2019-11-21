@@ -37,3 +37,5 @@ yarn-error.log*
 /.changelog
 .npm/
 yarn.lock
+
+src/__snapshots__/
