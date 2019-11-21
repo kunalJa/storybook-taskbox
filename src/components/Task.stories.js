@@ -12,15 +12,17 @@ export const task = {
 };
 
 export const actions = {
-  onPinTask: action("onPinTask"),
-  onArchiveTask: action("onArchiveTask")
+  onArchiveTask: action("onArchiveTask"),
+  onPinTask: action("onPinTask")
 };
 
-storiesOf("Task", module)
-  .add("default", () => <Task task={task} {...actions} />)
-  .add("pinned", () => (
-    <Task task={{ ...task, state: "TASK_PINNED" }} {...actions} />
-  ))
-  .add("archived", () => (
-    <Task task={{ ...task, state: "TASK_ARCHIVED" }} {...actions} />
+export const states = ["TASK_INBOX", "TASK_PINNED", "TASK_ARCHIVED"];
+
+let stories = storiesOf("Task", module);
+
+states.forEach(state => {
+  const story_name = state.split("_")[1].toLowerCase();
+  stories.add(story_name, () => (
+    <Task task={{ ...task, state: state }} {...actions} />
   ));
+});
