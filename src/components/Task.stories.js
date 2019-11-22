@@ -1,6 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { withKnobs, object } from "@storybook/addon-knobs/react";
 
 import Task from "./Task";
 
@@ -20,11 +21,12 @@ export const states = ["TASK_INBOX", "TASK_PINNED", "TASK_ARCHIVED"];
 
 let stories = storiesOf("Task", module);
 
+stories.addDecorator(withKnobs);
 stories.addDecorator(story => <div style={{ padding: "3rem" }}>{story()}</div>);
 
 states.forEach(state => {
   const story_name = state.split("_")[1].toLowerCase();
   stories.add(story_name, () => (
-    <Task task={{ ...task, state: state }} {...actions} />
+    <Task task={object("task", { ...task, state: state })} {...actions} />
   ));
 });
