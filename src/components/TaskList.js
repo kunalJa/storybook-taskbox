@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import Task from "./Task";
+import PageContext from "../contexts/PageContext";
 
 const LoadingRow = () => {
   return (
@@ -14,12 +15,7 @@ const LoadingRow = () => {
   );
 };
 
-const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
-  const events = {
-    onPinTask,
-    onArchiveTask
-  };
-
+const TaskList = ({ loading, tasks, actions }) => {
   if (loading) {
     return (
       <div className="list-item">
@@ -50,7 +46,7 @@ const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
   return (
     <div className="list-items">
       {tasksInOrder.map(task => (
-        <Task key={task.id} task={task} {...events} />
+        <Task key={task.id} task={task} {...actions} />
       ))}
     </div>
   );
@@ -59,12 +55,25 @@ const TaskList = ({ loading, tasks, onPinTask, onArchiveTask }) => {
 TaskList.propTypes = {
   loading: PropTypes.bool,
   tasks: PropTypes.arrayOf(Task.propTypes.task).isRequired,
-  onPinTask: PropTypes.func.isRequired,
-  onArchiveTask: PropTypes.func.isRequired
+  actions: PropTypes.objectOf(PropTypes.func).isRequired
 };
 
 TaskList.defaultProps = {
   loading: false
 };
 
-export default TaskList;
+const ContextualTaskList = ({ loading }) => {
+  const { tasks, actions } = useContext(PageContext);
+  return <TaskList loading={loading} tasks={tasks} actions={actions} />;
+};
+
+ContextualTaskList.propTypes = {
+  loading: PropTypes.bool
+};
+
+ContextualTaskList.defaultProps = {
+  loading: false
+};
+
+export default ContextualTaskList;
+export { TaskList };
